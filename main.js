@@ -111,6 +111,10 @@ function appendClause(clause) {
   span.textContent = clause;
   sentenceEl.appendChild(span);
 
+  if (sentenceEl.querySelectorAll('.clause').length >= 3) {
+    document.getElementById('fade-top').style.opacity = '1';
+  }
+
   window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 

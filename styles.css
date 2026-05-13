@@ -99,6 +99,8 @@ video, #analysis-canvas {
 }
 
 #fade-top {
+  opacity: 0;
+  transition: opacity 1.5s ease;
   position: fixed;
   top: 0;
   left: 0;
