@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; connect-src 'self' http://localhost:8080; media-src 'self'; img-src 'self' data:">
+  <title>the slow letter</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="logo">The slow letter</div>
+  <div id="fade-top"></div>
+  <main>
+    <p id="sentence"></p>
+  </main>
+  <video id="webcam" muted playsinline></video>
+  <canvas id="analysis-canvas"></canvas>
+  <script src="main.js"></script>
+</body>
+</html>
