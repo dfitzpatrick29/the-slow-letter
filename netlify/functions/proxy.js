@@ -1,29 +1,23 @@
-export default async (req) => {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
+exports.handler = async (event) => {
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 204,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
       },
-    });
+      body: '',
+    };
   }
 
-  if (req.method !== 'POST') {
-    return new Response('Method Not Allowed', { status: 405 });
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   const apiKey = process.env.NVIDIA_API_KEY;
   if (!apiKey) {
-    return new Response('Missing API key', { status: 500 });
-  }
-
-  let body;
-  try {
-    body = await req.text();
-  } catch {
-    return new Response('Failed to read request body', { status: 400 });
+    return { statusCode: 500, body: 'Missing API key' };
   }
 
   const nvidiaRes = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
@@ -32,18 +26,17 @@ export default async (req) => {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiKey}`,
     },
-    body,
+    body: event.body,
   });
 
   const data = await nvidiaRes.text();
 
-  return new Response(data, {
-    status: nvidiaRes.status,
+  return {
+    statusCode: nvidiaRes.status,
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
     },
-  });
+    body: data,
+  };
 };
-
-export const config = { path: '/.netlify/functions/proxy' };
